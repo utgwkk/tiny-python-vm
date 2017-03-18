@@ -8,6 +8,8 @@ class PythonVM:
         self._stack = deque()
         self._globals = {}
         self._locals = {}
+        self.co_names = []
+        self.co_consts = []
 
     def push(self, value):
         self._stack.pushleft(value)
@@ -19,6 +21,7 @@ class PythonVM:
         insts = dis.get_instructions(bytecode)
         for inst in insts:
             opname = inst.opname
+            consti = inst.arg
             if opname == 'NOP':
                 pass
             # General instructions
@@ -129,6 +132,12 @@ class PythonVM:
                 tos = self.pop()
                 tos1 = self.pop()
                 self.push(tos1 | tos)
+            # Miscellaneous opnames
+            elif opname == 'RETURN_VALUE':
+                tos = self.pop()
+                return tos
+            elif opname == 'LOAD_CONST':
+                self.push(self.co_consts[consti])
             # Not implemented operator
             else:
                 raise NotImplementedError(
