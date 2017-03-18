@@ -16,6 +16,9 @@ class ConstantOrNameCollector(ast.NodeVisitor):
     def visit_Num(self, node):
         self.co_consts.append(node.n)
 
+    def visit_Str(self, node):
+        self.co_consts.append(node.s)
+
 
 class PythonVM:
     def __init__(self):
