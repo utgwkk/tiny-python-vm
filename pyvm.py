@@ -30,12 +30,7 @@ class ConstantOrNameCollector(ast.NodeVisitor):
 
 class PythonVM:
     def __init__(self):
-        self._stack = deque()
-        self._globals = {}
-        self._locals = {}
-        self.co_names = []
-        self.co_consts = []
-        self.pc = 0
+        self._reset()
 
     def push(self, value):
         self._stack.appendleft(value)
@@ -44,7 +39,12 @@ class PythonVM:
         return self._stack.popleft()
 
     def _reset(self):
-        self.__init__()
+        self._stack = deque()
+        self._globals = {}
+        self._locals = {}
+        self.co_names = []
+        self.co_consts = []
+        self.pc = 0
 
     def eval(self, bytecode):
         _ast = ast.parse(bytecode)
@@ -175,7 +175,6 @@ class PythonVM:
             # Miscellaneous opnames
             elif opname == 'RETURN_VALUE':
                 tos = self.pop()
-                self._reset()
                 return tos
             elif opname == 'LOAD_CONST':
                 self.push(self.co_consts[arg])
