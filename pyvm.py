@@ -39,6 +39,11 @@ class PythonVM:
         # Store names and constants into co_names and co_consts
         ConstantOrNameCollector(self.co_names, self.co_consts).visit(_ast)
 
+        # Add None to the end of co_consts if not exists
+        if None not in self.co_consts:
+            self.co_consts.append(None)
+
+        # Get information of bytecode
         insts = dis.get_instructions(bytecode)
         for inst in insts:
             opname = inst.opname
