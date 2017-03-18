@@ -1,6 +1,20 @@
 import dis
 import collections.abc
+import ast
 from collections import deque
+
+
+class ConstantOrNameCollector(ast.NodeVisitor):
+    def __init__(self, co_names, co_consts):
+        ast.NodeVisitor.__init__(self)
+        self.co_names = co_names
+        self.co_consts = co_consts
+
+    def visit_Name(self, node):
+        self.co_names.append(node.id)
+
+    def visit_Num(self, node):
+        self.co_consts.append(node.n)
 
 
 class PythonVM:
@@ -18,6 +32,10 @@ class PythonVM:
         return self._stack.popleft()
 
     def eval(self, bytecode):
+        _ast = ast.parse(bytecode)
+        # Store names and constants into co_names and co_consts
+        ConstantOrNameCollector(self.co_names, self.co_consts).visit(_ast)
+
         insts = dis.get_instructions(bytecode)
         for inst in insts:
             opname = inst.opname
