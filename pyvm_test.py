@@ -23,5 +23,18 @@ class PyVMTest(unittest.TestCase):
             self.vm.eval('"hoge"')
         )
 
+    def test_eval_empty(self):
+        self.assertEqual(
+            None,
+            self.vm.eval('')
+        )
+
+    def test_assign_const(self):
+        self.vm.eval('a = 1')
+        self.assertDictEqual(
+            {'a': 1},
+            self.vm._locals
+        )
+
 if __name__ == '__main__':
     unittest.main()
