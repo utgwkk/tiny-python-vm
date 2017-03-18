@@ -18,29 +18,29 @@ class PythonVM:
     def eval(self, bytecode):
         insts = dis.get_instructions(bytecode)
         for inst in insts:
-            opcode = inst.opcode
-            if opcode == 'NOP':
+            opname = inst.opname
+            if opname == 'NOP':
                 pass
             # General instructions
-            elif opcode == 'POP_TOP':
+            elif opname == 'POP_TOP':
                 self.pop()
-            elif opcode == 'ROT_TWO':
+            elif opname == 'ROT_TWO':
                 a = self.pop()
                 b = self.pop()
                 self.push(a)
                 self.push(b)
-            elif opcode == 'ROT_THREE':
+            elif opname == 'ROT_THREE':
                 a = self.pop()
                 b = self.pop()
                 c = self.pop()
                 self.push(a)
                 self.push(b)
                 self.push(c)
-            elif opcode == 'DUP_TOP':
+            elif opname == 'DUP_TOP':
                 a = self.pop()
                 self.push(a)
                 self.push(a)
-            elif opcode == 'DUP_TOP_TWO':
+            elif opname == 'DUP_TOP_TWO':
                 a = self.pop()
                 b = self.pop()
                 self.push(b)
@@ -48,22 +48,22 @@ class PythonVM:
                 self.push(b)
                 self.push(a)
             # Unary operations
-            elif opcode == 'UNARY_POSITIVE':
+            elif opname == 'UNARY_POSITIVE':
                 a = self.pop()
                 self.push(+a)
-            elif opcode == 'UNARY_NEGATIVE':
+            elif opname == 'UNARY_NEGATIVE':
                 a = self.pop()
                 self.push(-a)
-            elif opcode == 'UNARY_NOT':
+            elif opname == 'UNARY_NOT':
                 a = self.pop()
                 self.push(not a)
-            elif opcode == 'UNARY_INVERT':
+            elif opname == 'UNARY_INVERT':
                 a = self.pop()
                 self.push(~a)
-            elif opcode == 'GET_ITER':
+            elif opname == 'GET_ITER':
                 a = self.pop()
                 self.push(iter(a))
-            elif opcode == 'GET_YIELD_FROM_ITER':
+            elif opname == 'GET_YIELD_FROM_ITER':
                 a = self.pop()
                 # If TOS is a generator iterator or coroutine object
                 if any([isinstance(a, collections.abc.Generator),
@@ -73,64 +73,64 @@ class PythonVM:
                 else:
                     self.push(iter(a))
             # Binary operations
-            elif opcode == 'BINARY_POWER':
+            elif opname == 'BINARY_POWER':
                 tos = self.pop()
                 tos1 = self.pop()
                 self.push(tos1 ** tos)
-            elif opcode == 'BINARY_MULTIPLY':
+            elif opname == 'BINARY_MULTIPLY':
                 tos = self.pop()
                 tos1 = self.pop()
                 self.push(tos1 * tos)
-            elif opcode == 'BINARY_MATRIX_MULTIPLY':
+            elif opname == 'BINARY_MATRIX_MULTIPLY':
                 tos = self.pop()
                 tos1 = self.pop()
                 self.push(tos1 @ tos)
-            elif opcode == 'BINARY_FLOOR_DIVIDE':
+            elif opname == 'BINARY_FLOOR_DIVIDE':
                 tos = self.pop()
                 tos1 = self.pop()
                 self.push(tos1 // tos)
-            elif opcode == 'BINARY_TRUE_DIVIDE':
+            elif opname == 'BINARY_TRUE_DIVIDE':
                 tos = self.pop()
                 tos1 = self.pop()
                 self.push(tos1 / tos)
-            elif opcode == 'BINARY_MODULO':
+            elif opname == 'BINARY_MODULO':
                 tos = self.pop()
                 tos1 = self.pop()
                 self.push(tos1 % tos)
-            elif opcode == 'BINARY_ADD':
+            elif opname == 'BINARY_ADD':
                 tos = self.pop()
                 tos1 = self.pop()
                 self.push(tos1 + tos)
-            elif opcode == 'BINARY_SUBTRACT':
+            elif opname == 'BINARY_SUBTRACT':
                 tos = self.pop()
                 tos1 = self.pop()
                 self.push(tos1 - tos)
-            elif opcode == 'BINARY_SUBSCR':
+            elif opname == 'BINARY_SUBSCR':
                 tos = self.pop()
                 tos1 = self.pop()
                 self.push(tos1[tos])
-            elif opcode == 'BINARY_LSHIFT':
+            elif opname == 'BINARY_LSHIFT':
                 tos = self.pop()
                 tos1 = self.pop()
                 self.push(tos1 << tos)
-            elif opcode == 'BINARY_RSHIFT':
+            elif opname == 'BINARY_RSHIFT':
                 tos = self.pop()
                 tos1 = self.pop()
                 self.push(tos1 >> tos)
-            elif opcode == 'BINARY_AND':
+            elif opname == 'BINARY_AND':
                 tos = self.pop()
                 tos1 = self.pop()
                 self.push(tos1 & tos)
-            elif opcode == 'BINARY_XOR':
+            elif opname == 'BINARY_XOR':
                 tos = self.pop()
                 tos1 = self.pop()
                 self.push(tos1 ^ tos)
-            elif opcode == 'BINARY_OR':
+            elif opname == 'BINARY_OR':
                 tos = self.pop()
                 tos1 = self.pop()
                 self.push(tos1 | tos)
             # Not implemented operator
             else:
                 raise NotImplementedError(
-                    'the opcode `{}` is not implemented.'.format(opcode)
+                    'the opname `{}` is not implemented.'.format(opname)
                 )
