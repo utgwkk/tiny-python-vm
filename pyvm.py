@@ -43,6 +43,9 @@ class PythonVM:
     def pop(self):
         return self._stack.popleft()
 
+    def _reset(self):
+        self.__init__()
+
     def eval(self, bytecode):
         _ast = ast.parse(bytecode)
         # Store names and constants into co_names and co_consts
@@ -172,6 +175,7 @@ class PythonVM:
             # Miscellaneous opnames
             elif opname == 'RETURN_VALUE':
                 tos = self.pop()
+                self._reset()
                 return tos
             elif opname == 'LOAD_CONST':
                 self.push(self.co_consts[arg])
