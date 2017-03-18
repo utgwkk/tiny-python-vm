@@ -164,6 +164,11 @@ class PythonVM:
                 return tos
             elif opname == 'LOAD_CONST':
                 self.push(self.co_consts[arg])
+            elif opname == 'LOAD_NAME':
+                self.push(self._locals.get(self.co_names[arg]))
+            elif opname == 'STORE_NAME':
+                tos = self.pop()
+                self._locals[self.co_names[arg]] = tos
             # Not implemented operator
             else:
                 raise NotImplementedError(
