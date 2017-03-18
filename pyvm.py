@@ -27,6 +27,7 @@ class PythonVM:
         self._locals = {}
         self.co_names = []
         self.co_consts = []
+        self.pc = 0
 
     def push(self, value):
         self._stack.appendleft(value)
@@ -44,8 +45,9 @@ class PythonVM:
             self.co_consts.append(None)
 
         # Get information of bytecode
-        insts = dis.get_instructions(bytecode)
-        for inst in insts:
+        insts = list(dis.get_instructions(bytecode))
+        while self.pc < len(insts):
+            inst = insts[self.pc]
             opname = inst.opname
             arg = inst.arg
             if opname == 'NOP':
@@ -170,8 +172,17 @@ class PythonVM:
             elif opname == 'STORE_NAME':
                 tos = self.pop()
                 self._locals[self.co_names[arg]] = tos
+            elif opname == 'POP_JUMP_IF_TRUE':
+                tos = self.pop()
+                if tos:
+                    self.pc = arg // 2 - 1
+            elif opname == 'POP_JUMP_IF_FALSE':
+                tos = self.pop()
+                if not tos:
+                    self.pc = arg // 2 - 1
             # Not implemented operator
             else:
                 raise NotImplementedError(
                     'the opname `{}` is not implemented.'.format(opname)
                 )
+            self.pc += 1

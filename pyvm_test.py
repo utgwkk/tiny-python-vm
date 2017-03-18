@@ -36,5 +36,19 @@ class PyVMTest(unittest.TestCase):
             self.vm._locals
         )
 
+    def test_if_expression_true(self):
+        self.vm.eval('cond = True\nif cond: x = 1')
+        self.assertEqual(
+            1,
+            self.vm._locals.get('x')
+        )
+
+    def test_if_expression_false(self):
+        self.vm.eval('cond = False\nif cond: x = 1')
+        self.assertEqual(
+            None,
+            self.vm._locals.get('x')
+        )
+
 if __name__ == '__main__':
     unittest.main()
