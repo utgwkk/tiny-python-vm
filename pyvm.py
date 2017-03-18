@@ -188,6 +188,8 @@ class PythonVM:
                 tos = self.pop()
                 if not tos:
                     self.pc = arg // 2 - 1
+            elif opname == 'JUMP_FORWARD':
+                self.pc += arg // 2
             # Not implemented operator
             else:
                 raise NotImplementedError(
