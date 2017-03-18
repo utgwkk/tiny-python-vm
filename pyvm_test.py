@@ -5,6 +5,9 @@ class PyVMTest(unittest.TestCase):
     def setUp(self):
         self.vm = pyvm.PythonVM()
 
+    def tearDown(self):
+        self.vm._reset()
+
     def test_load_const_num(self):
         self.assertEqual(
             10,
