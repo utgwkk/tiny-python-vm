@@ -46,3 +46,8 @@ class PythonVM:
                 self.push(a)
                 self.push(b)
                 self.push(a)
+            # Not implemented operator
+            else:
+                raise NotImplementedError(
+                    'the opcode `{}` is not implemented.'.format(opcode)
+                )
