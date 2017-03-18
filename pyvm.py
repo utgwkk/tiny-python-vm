@@ -26,7 +26,7 @@ class PythonVM:
         self.co_consts = []
 
     def push(self, value):
-        self._stack.pushleft(value)
+        self._stack.appendleft(value)
 
     def pop(self):
         return self._stack.popleft()
