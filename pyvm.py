@@ -40,6 +40,7 @@ class PythonVM:
 
     def _reset(self):
         self._stack = deque()
+        self.co_blocks = deque()
         self._globals = {}
         self._locals = {}
         self.co_names = []
@@ -195,6 +196,10 @@ class PythonVM:
                 self.pc += arg // 2
             elif opname == 'JUMP_ABSOLUTE':
                 self.pc = arg // 2 - 1
+            elif opname == 'SETUP_LOOP':
+                self.co_blocks.appendleft((self.pc, self.pc + arg // 2))
+            elif opname == 'POP_BLOCK':
+                self.co_blocks.popleft()
             # Not implemented operator
             else:
                 raise NotImplementedError(

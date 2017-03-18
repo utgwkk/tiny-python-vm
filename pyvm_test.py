@@ -78,5 +78,8 @@ class PyVMTest(unittest.TestCase):
             self.vm._locals.get('y')
         )
 
+    def test_while_loop(self):
+        self.vm.eval('i = 5\nwhile i: i = i - 1')
+
 if __name__ == '__main__':
     unittest.main()
