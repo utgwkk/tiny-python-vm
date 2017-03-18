@@ -11,6 +11,12 @@ class PyVMTest(unittest.TestCase):
             self.vm.eval('10')
         )
 
+    def test_load_const_num_float(self):
+        self.assertEqual(
+            10.55,
+            self.vm.eval('10.55')
+        )
+
     def test_load_const_str(self):
         self.assertEqual(
             "hoge",
