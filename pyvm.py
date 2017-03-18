@@ -11,16 +11,20 @@ class ConstantOrNameCollector(ast.NodeVisitor):
         self.co_consts = co_consts
 
     def visit_Name(self, node):
-        self.co_names.append(node.id)
+        if node.id not in self.co_names:
+            self.co_names.append(node.id)
 
     def visit_Num(self, node):
-        self.co_consts.append(node.n)
+        if node.n not in self.co_consts:
+            self.co_consts.append(node.n)
 
     def visit_Str(self, node):
-        self.co_consts.append(node.s)
+        if node.s not in self.co_consts:
+            self.co_consts.append(node.s)
 
     def visit_NameConstant(self, node):
-        self.co_consts.append(node.value)
+        if node.value not in self.co_consts:
+            self.co_consts.append(node.value)
 
 
 class PythonVM:
