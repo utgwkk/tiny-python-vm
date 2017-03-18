@@ -47,7 +47,7 @@ class PythonVM:
         insts = dis.get_instructions(bytecode)
         for inst in insts:
             opname = inst.opname
-            consti = inst.arg
+            arg = inst.arg
             if opname == 'NOP':
                 pass
             # General instructions
@@ -163,7 +163,7 @@ class PythonVM:
                 tos = self.pop()
                 return tos
             elif opname == 'LOAD_CONST':
-                self.push(self.co_consts[consti])
+                self.push(self.co_consts[arg])
             # Not implemented operator
             else:
                 raise NotImplementedError(
