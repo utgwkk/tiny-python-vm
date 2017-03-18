@@ -15,7 +15,8 @@ class ConstantOrNameCollector(ast.NodeVisitor):
             self.co_names.append(node.id)
 
     def visit_Num(self, node):
-        if node.n not in self.co_consts:
+        # XXX: 1 == True
+        if not any(x is node.n for x in self.co_consts):
             self.co_consts.append(node.n)
 
     def visit_Str(self, node):
