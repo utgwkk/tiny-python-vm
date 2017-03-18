@@ -63,6 +63,17 @@ class PyVMTest(unittest.TestCase):
             2,
             self.vm._locals.get('x')
         )
+    
+    def test_swap(self):
+        self.vm.eval('x = 1; y = 2; x, y = y, x')
+        self.assertEqual(
+            2,
+            self.vm._locals.get('x')
+        )
+        self.assertEqual(
+            1,
+            self.vm._locals.get('y')
+        )
 
 if __name__ == '__main__':
     unittest.main()
