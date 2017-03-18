@@ -95,6 +95,7 @@ class PythonVM:
             elif opname == 'GET_YIELD_FROM_ITER':
                 a = self.pop()
                 # If TOS is a generator iterator or coroutine object
+                # FIXME: what are 'generator iterator' or 'coroutines'
                 if any([isinstance(a, collections.abc.Generator),
                         isinstance(a, collections.abc.AsyncGenerator),
                         ]):
