@@ -46,6 +46,19 @@ class PythonVM:
                 self.push(a)
                 self.push(b)
                 self.push(a)
+            # Unary operations
+            elif opcode == 'UNARY_POSITIVE':
+                a = self.pop()
+                self.push(+a)
+            elif opcode == 'UNARY_NEGATIVE':
+                a = self.pop()
+                self.push(-a)
+            elif opcode == 'UNARY_NOT':
+                a = self.pop()
+                self.push(not a)
+            elif opcode == 'UNARY_INVERT':
+                a = self.pop()
+                self.push(~a)
             # Not implemented operator
             else:
                 raise NotImplementedError(
