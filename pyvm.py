@@ -1,3 +1,5 @@
+import sys
+import argparse
 import dis
 import collections.abc
 import ast
@@ -29,7 +31,7 @@ class ConstantOrNameCollector(ast.NodeVisitor):
 
 
 class PythonVM:
-    def __init__(self, _globals=globals(), _locals=None):
+    def __init__(self, _globals=None, _locals=None):
         self._reset()
 
     def push(self, value):
@@ -38,7 +40,9 @@ class PythonVM:
     def pop(self):
         return self._stack.popleft()
 
-    def _reset(self, _globals=globals(), _locals=None):
+    def _reset(self, _globals=None, _locals=None):
+        if _globals is None:
+            _globals = globals()
         if _locals is None:
             _locals = {}
         self._stack = deque()
@@ -208,3 +212,18 @@ class PythonVM:
                     'the opname `{}` is not implemented.'.format(opname)
                 )
             self.pc += 1
+
+def main(argv):
+    parser = argparse.ArgumentParser(description='evaluate restricted Python code.')
+    parser.add_argument('-i', metavar='file', type=str, action='store', required=False)
+
+    args = parser.parse_args(argv)
+
+    vm = PythonVM()
+    if args.i:
+        vm.eval(compile(args.i))
+    else:
+        vm.eval(sys.stdin.read())
+
+if __name__ == '__main__':
+    main(sys.argv[1:])
