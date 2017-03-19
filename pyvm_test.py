@@ -109,5 +109,8 @@ class PyVMTest(unittest.TestCase):
             self.vm.eval('a + 2 - 5 - b * a + 2')
         )
 
+    def test_hello_world(self):
+        self.vm.eval("print('Hello, world!')")
+
 if __name__ == '__main__':
     unittest.main()
