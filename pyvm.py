@@ -186,7 +186,14 @@ class PythonVM:
             elif opname == 'LOAD_CONST':
                 self.push(self.co_consts[arg])
             elif opname == 'LOAD_NAME':
-                self.push(self._locals.get(self.co_names[arg]))
+                if self.co_names[arg] in self._locals:
+                    self.push(self._locals.get(self.co_names[arg]))
+                elif self.co_names[arg] in self._globals:
+                    self.push(self._globals.get(self.co_names[arg]))
+                elif self.co_names[arg] in self._globals['__builtins__']:
+                    self.push(self._globals['__builtins__'][self.co_names[arg]])
+                else:
+                    raise NameError("name '{}' is not defined".format(self.co_names[arg]))
             elif opname == 'STORE_NAME':
                 tos = self.pop()
                 self._locals[self.co_names[arg]] = tos
@@ -206,6 +213,29 @@ class PythonVM:
                 self.co_blocks.appendleft((self.pc, self.pc + arg // 2))
             elif opname == 'POP_BLOCK':
                 self.co_blocks.popleft()
+            elif opname == 'CALL_FUNCTION':
+                args, kwargs = [], {}
+                argc = arg & 0x0f
+                kwargc = (arg & 0xf0) >> 8
+
+                # Get keyword arguments first
+                # TODO: WIP
+
+                # Get positional arguments
+                for i in range(argc):
+                    tos = self.pop()
+                    args.insert(0, tos)
+
+                # Get a function
+                function = self.pop()
+                if function.__name__ in self._locals:
+                    frame = PythonVM()
+                    retval = frame.eval(function)
+                else:
+                    retval = function(*args, **kwargs)
+                return retval
+
+
             # Not implemented operator
             else:
                 raise NotImplementedError(
