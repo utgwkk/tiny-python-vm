@@ -236,8 +236,6 @@ class PythonVM:
                 else:
                     retval = function(*args, **kwargs)
                 return retval
-
-
             # Not implemented operator
             else:
                 raise NotImplementedError(
