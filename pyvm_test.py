@@ -102,5 +102,12 @@ class PyVMTest(unittest.TestCase):
             self.vm.eval('a + b - 5')
         )
 
+    def test_eval_with_complex_expression(self):
+        self.vm._reset(_locals={'a': 8, 'b': 3})
+        self.assertEqual(
+            -17,
+            self.vm.eval('a + 2 - 5 - b * a + 2')
+        )
+
 if __name__ == '__main__':
     unittest.main()
