@@ -39,6 +39,20 @@ class PyVMTest(unittest.TestCase):
             self.vm._locals
         )
 
+    def test_binary_add(self):
+        self.vm.eval('a = 3\nb = 8\nc = a + b')
+        self.assertEqual(
+            11,
+            self.vm._locals.get('c')
+        )
+
+    def test_binary_sub(self):
+        self.vm.eval('a = 3\nb = 8\nc = a - b')
+        self.assertEqual(
+            -5,
+            self.vm._locals.get('c')
+        )
+
     def test_if_statement_true(self):
         self.vm.eval('cond = True\nif cond: x = 1')
         self.assertEqual(
@@ -80,6 +94,13 @@ class PyVMTest(unittest.TestCase):
 
     def test_while_loop(self):
         self.vm.eval('i = 5\nwhile i: i = i - 1')
+
+    def test_eval_with_default_locals(self):
+        self.vm._reset(_locals={'a': 8, 'b': 3})
+        self.assertEqual(
+            6,
+            self.vm.eval('a + b - 5')
+        )
 
 if __name__ == '__main__':
     unittest.main()

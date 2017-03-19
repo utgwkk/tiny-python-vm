@@ -29,7 +29,7 @@ class ConstantOrNameCollector(ast.NodeVisitor):
 
 
 class PythonVM:
-    def __init__(self):
+    def __init__(self, _globals=globals(), _locals=None):
         self._reset()
 
     def push(self, value):
@@ -38,11 +38,13 @@ class PythonVM:
     def pop(self):
         return self._stack.popleft()
 
-    def _reset(self):
+    def _reset(self, _globals=globals(), _locals=None):
+        if _locals is None:
+            _locals = {}
         self._stack = deque()
         self.co_blocks = deque()
-        self._globals = {}
-        self._locals = {}
+        self._globals = _globals
+        self._locals = _locals
         self.co_names = []
         self.co_consts = []
         self.pc = 0
