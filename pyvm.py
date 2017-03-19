@@ -190,7 +190,9 @@ class PythonVM:
                     self.push(self._locals.get(self.co_names[arg]))
                 elif self.co_names[arg] in self._globals:
                     self.push(self._globals.get(self.co_names[arg]))
-                elif self.co_names[arg] in self._globals['__builtins__']:
+                elif self.co_names[arg] in dir(self._globals['__builtins__']):
+                    self.push(getattr(self._globals['__builtins__'], self.co_names[arg]))
+                elif isinstance(self._globals['__builtins__'], dict) and self.co_names[arg] in self._globals['__builtins__']:
                     self.push(self._globals['__builtins__'][self.co_names[arg]])
                 else:
                     raise NameError("name '{}' is not defined".format(self.co_names[arg]))
