@@ -246,14 +246,11 @@ class PythonVM:
             self.pc += 1
 
 def main(argv):
-    parser = argparse.ArgumentParser(description='evaluate restricted Python code.')
-    parser.add_argument('-i', metavar='file', type=str, action='store', required=False)
-
-    args = parser.parse_args(argv)
-
     vm = PythonVM()
-    if args.i:
-        vm.eval(compile(args.i))
+    if len(argv) > 0:
+        with open(argv[0], 'rt') as f:
+            code = f.read()
+            vm.eval(code)
     else:
         vm.eval(sys.stdin.read())
 
