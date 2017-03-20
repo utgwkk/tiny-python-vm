@@ -235,7 +235,7 @@ class PythonVM:
                     retval = frame.eval(function)
                 else:
                     retval = function(*args, **kwargs)
-                return retval
+                self.push(retval)
             # Not implemented operator
             else:
                 raise NotImplementedError(
