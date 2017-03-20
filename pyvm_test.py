@@ -94,6 +94,10 @@ class PyVMTest(unittest.TestCase):
 
     def test_while_loop(self):
         self.vm.eval('i = 5\nwhile i: i = i - 1')
+        self.assertEqual(
+            0,
+            self.vm._locals.get('i')
+        )
 
     def test_eval_with_default_locals(self):
         self.vm._reset(_locals={'a': 8, 'b': 3})
