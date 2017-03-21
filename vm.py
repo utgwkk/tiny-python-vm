@@ -191,18 +191,18 @@ class PythonVM:
                 tos = self.pop()
                 return tos
             elif opname == 'LOAD_CONST':
-                self.push(self.co_consts[arg])
+                self.push(argval)
             elif opname == 'LOAD_NAME':
-                if self.co_names[arg] in self._locals:
-                    self.push(self._locals.get(self.co_names[arg]))
-                elif self.co_names[arg] in self._globals:
-                    self.push(self._globals.get(self.co_names[arg]))
-                elif self.co_names[arg] in dir(self._globals['__builtins__']):
-                    self.push(getattr(self._globals['__builtins__'], self.co_names[arg]))
-                elif isinstance(self._globals['__builtins__'], dict) and self.co_names[arg] in self._globals['__builtins__']:
-                    self.push(self._globals['__builtins__'][self.co_names[arg]])
+                if argval in self._locals:
+                    self.push(self._locals.get(argval))
+                elif argval in self._globals:
+                    self.push(self._globals.get(argval))
+                elif argval in dir(self._globals['__builtins__']):
+                    self.push(getattr(self._globals['__builtins__'], argval))
+                elif isinstance(self._globals['__builtins__'], dict) and argval in self._globals['__builtins__']:
+                    self.push(self._globals['__builtins__'][argval])
                 else:
-                    raise NameError("name '{}' is not defined".format(self.co_names[arg]))
+                    raise NameError("name '{}' is not defined".format(argval))
             elif opname == 'STORE_NAME':
                 tos = self.pop()
                 self._locals[self.co_names[arg]] = tos
