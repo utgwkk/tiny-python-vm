@@ -69,9 +69,10 @@ class PythonVM:
             inst = insts[self.pc]
             opname = inst.opname
             arg = inst.arg
+            argval = inst.argval
 
             if self._debug:
-                print('opname: {}, argval: {}, stack: {}'.format(opname, inst.argval, self._stack),
+                print('opname: {}, argval: {}, stack: {}'.format(opname, argval, self._stack),
                       file=sys.stderr)
 
             if opname == 'NOP':
