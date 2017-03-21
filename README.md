@@ -18,3 +18,9 @@ $ cat hoge.py | python3 vm.py
 ```
 $ python3 test_vm.py
 ```
+
+## Available syntaxes
+* Assigments
+* Arithmetic calculations
+* `while` statements
+* `if`, `elif`, `else` statements
