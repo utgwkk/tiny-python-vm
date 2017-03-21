@@ -1,6 +1,8 @@
 # tiny-python-vm
 A tiny Python bytecode interpreter written in Python.
 
+Requires Python 3.5 or later.
+
 ## Usage
 ### from command-line argument
 ```
