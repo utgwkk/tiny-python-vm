@@ -20,6 +20,8 @@ $ python3 test_vm.py
 ```
 
 ## Available syntaxes
+The example of available codes are in `examples/`.
+
 * Assigments
 * Arithmetic calculations
 * `while` statements
