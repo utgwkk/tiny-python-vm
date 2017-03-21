@@ -3,7 +3,7 @@ import unittest
 
 class PyVMTest(unittest.TestCase):
     def setUp(self):
-        self.vm = vm.PythonVM()
+        self.vm = vm.PythonVM(debug=True)
 
     def tearDown(self):
         self.vm._reset()
