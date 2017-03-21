@@ -31,8 +31,9 @@ class ConstantOrNameCollector(ast.NodeVisitor):
 
 
 class PythonVM:
-    def __init__(self, _globals=None, _locals=None):
+    def __init__(self, debug=False, _globals=None, _locals=None):
         self._reset()
+        self._debug = debug
 
     def push(self, value):
         self._stack.appendleft(value)
@@ -68,6 +69,11 @@ class PythonVM:
             inst = insts[self.pc]
             opname = inst.opname
             arg = inst.arg
+
+            if self._debug:
+                print('opname: {}, argval: {}, stack: {}'.format(opname, inst.argval, self._stack),
+                      file=sys.stderr)
+
             if opname == 'NOP':
                 pass
             # General instructions
@@ -245,8 +251,10 @@ class PythonVM:
 
 def main(argv):
     vm = PythonVM()
+    if '--debug' in argv:
+        vm.debug = True
     if len(argv) > 0:
-        with open(argv[0], 'rt') as f:
+        with open(argv[-1], 'rt') as f:
             code = f.read()
             vm.eval(code)
     else:
