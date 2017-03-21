@@ -63,6 +63,10 @@ class PythonVM:
         if None not in self.co_consts:
             self.co_consts.append(None)
 
+        offset_map = {}
+        for i, inst in enumerate(dis.get_instructions(bytecode)):
+            offset_map[inst.offset] = i
+
         # Get information of bytecode
         insts = list(dis.get_instructions(bytecode))
         while self.pc < len(insts):
@@ -205,19 +209,19 @@ class PythonVM:
                     raise NameError("name '{}' is not defined".format(argval))
             elif opname == 'STORE_NAME':
                 tos = self.pop()
-                self._locals[self.co_names[arg]] = tos
+                self._locals[argval] = tos
             elif opname == 'POP_JUMP_IF_TRUE':
                 tos = self.pop()
                 if tos:
-                    self.pc = arg // 2 - 1
+                    self.pc = offset_map[argval] - 1
             elif opname == 'POP_JUMP_IF_FALSE':
                 tos = self.pop()
                 if not tos:
-                    self.pc = arg // 2 - 1
+                    self.pc = offset_map[argval] - 1
             elif opname == 'JUMP_FORWARD':
-                self.pc += arg // 2
+                self.pc += argval
             elif opname == 'JUMP_ABSOLUTE':
-                self.pc = arg // 2 - 1
+                self.pc = offset_map[argval] - 1
             elif opname == 'SETUP_LOOP':
                 self.co_blocks.appendleft((self.pc, self.pc + arg // 2))
             elif opname == 'POP_BLOCK':
