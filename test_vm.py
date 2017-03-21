@@ -1,9 +1,9 @@
-import pyvm
+import vm
 import unittest
 
 class PyVMTest(unittest.TestCase):
     def setUp(self):
-        self.vm = pyvm.PythonVM()
+        self.vm = vm.PythonVM()
 
     def tearDown(self):
         self.vm._reset()
