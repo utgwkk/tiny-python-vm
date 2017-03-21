@@ -6,30 +6,6 @@ import ast
 from collections import deque
 
 
-class ConstantOrNameCollector(ast.NodeVisitor):
-    def __init__(self, co_names, co_consts):
-        ast.NodeVisitor.__init__(self)
-        self.co_names = co_names
-        self.co_consts = co_consts
-
-    def visit_Name(self, node):
-        if node.id not in self.co_names:
-            self.co_names.append(node.id)
-
-    def visit_Num(self, node):
-        # XXX: 1 == True
-        if not any(x is node.n for x in self.co_consts):
-            self.co_consts.append(node.n)
-
-    def visit_Str(self, node):
-        if node.s not in self.co_consts:
-            self.co_consts.append(node.s)
-
-    def visit_NameConstant(self, node):
-        if node.value not in self.co_consts:
-            self.co_consts.append(node.value)
-
-
 class PythonVM:
     def __init__(self, debug=False, _globals=None, _locals=None):
         self._reset()
@@ -50,19 +26,9 @@ class PythonVM:
         self.co_blocks = deque()
         self._globals = _globals
         self._locals = _locals
-        self.co_names = []
-        self.co_consts = []
         self.pc = 0
 
     def eval(self, bytecode):
-        _ast = ast.parse(bytecode)
-        # Store names and constants into co_names and co_consts
-        ConstantOrNameCollector(self.co_names, self.co_consts).visit(_ast)
-
-        # Add None to the end of co_consts if not exists
-        if None not in self.co_consts:
-            self.co_consts.append(None)
-
         offset_map = {}
         for i, inst in enumerate(dis.get_instructions(bytecode)):
             offset_map[inst.offset] = i
