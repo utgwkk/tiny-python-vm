@@ -1,0 +1,7 @@
+language: python
+python:
+  - "3.4"
+  - "3.5"
+  - "3.5-dev"
+  - "nightly"
+script: python test_vm.py
