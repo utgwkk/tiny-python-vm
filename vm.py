@@ -236,6 +236,10 @@ class PythonVM:
                     key = self.pop()
                     dic[key] = value
                 self.push(dic)
+            elif opname == 'BUILD_CONST_KEY_MAP':
+                keys = self.pop()
+                values = reversed([self.pop() for i in range(arg)])
+                self.push(dict(zip(keys, values)))
             # Not implemented operator
             else:
                 raise NotImplementedError(
