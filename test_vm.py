@@ -136,8 +136,8 @@ class PyVMTest(unittest.TestCase):
 
     def test_build_map(self):
         self.assertEqual(
-            {'hoge': 1, 'fuga': 2, 'piyo': 3},
-            self.vm.eval("{'hoge': 1, 'fuga': 2, 'piyo': 3}")
+            {'hoge': 1, 'fuga': 2, 'piyo': 3, 'uoo': 4},
+            self.vm.eval("{'hoge': 1, 'fuga': 2, 'piyo': 3, 'uoo': 4}")
         )
 
 if __name__ == '__main__':
