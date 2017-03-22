@@ -1,4 +1,4 @@
-# tiny-python-vm
+# tiny-python-vm [![Build Status](https://travis-ci.org/utgwkk/tiny-python-vm.svg?branch=master)](https://travis-ci.org/utgwkk/tiny-python-vm)
 A tiny Python bytecode interpreter written in Python.
 
 Requires Python 3.5 or later.
