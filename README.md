@@ -23,7 +23,7 @@ $ python3 test_vm.py
 The example of available codes are in `examples/`.
 
 * Assigments
-* Building `list`, `tuple`, `set`
+* Building `list`, `tuple`, `set`, `map`
 * Arithmetic calculations
 * `while` statements
 * `if`, `elif`, `else` statements

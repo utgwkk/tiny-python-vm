@@ -228,6 +228,14 @@ class PythonVM:
                 for i in range(arg):
                     alist.insert(0, self.pop())
                 self.push(set(alist))
+            elif opname == 'BUILD_MAP':
+                # {..., TOS3: TOS2, TOS1: TOS}
+                dic = dict()
+                for i in range(arg):
+                    value = self.pop()
+                    key = self.pop()
+                    dic[key] = value
+                self.push(dic)
             # Not implemented operator
             else:
                 raise NotImplementedError(
