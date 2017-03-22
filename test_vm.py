@@ -116,5 +116,23 @@ class PyVMTest(unittest.TestCase):
     def test_hello_world(self):
         self.vm.eval("print('Hello, world!')")
 
+    def test_build_list(self):
+        self.assertEqual(
+            [1, 5, 3, 8, 9, 2],
+            self.vm.eval('[1, 5, 3, 8, 9, 2]')
+        )
+
+    def test_build_tuple(self):
+        self.assertEqual(
+            (1, 5, 3, 8, 9, 2),
+            self.vm.eval('(1, 5, 3, 8, 9, 2)')
+        )
+
+    def test_build_set(self):
+        self.assertEqual(
+            {1, 5, 3, 8, 9, 2},
+            self.vm.eval('{1, 5, 3, 8, 9, 2, 1}')
+        )
+
 if __name__ == '__main__':
     unittest.main()

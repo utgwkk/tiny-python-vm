@@ -213,6 +213,21 @@ class PythonVM:
                 else:
                     retval = function(*args, **kwargs)
                 self.push(retval)
+            elif opname == 'BUILD_LIST':
+                alist = []
+                for i in range(arg):
+                    alist.insert(0, self.pop())
+                self.push(alist)
+            elif opname == 'BUILD_TUPLE':
+                alist = []
+                for i in range(arg):
+                    alist.insert(0, self.pop())
+                self.push(tuple(alist))
+            elif opname == 'BUILD_SET':
+                alist = []
+                for i in range(arg):
+                    alist.insert(0, self.pop())
+                self.push(set(alist))
             # Not implemented operator
             else:
                 raise NotImplementedError(
